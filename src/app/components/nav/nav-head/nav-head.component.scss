@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.brand-name {
+  font-size: 1.75rem;
+  line-height: 5;
+  margin-bottom: 20px;
+  color: var(--sidenav-head-color);
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+    }
+
+    &:active {
+      color: inherit;
+    }
+  }
+
+  mat-icon {
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    margin-right: 10px;
+  }
+}

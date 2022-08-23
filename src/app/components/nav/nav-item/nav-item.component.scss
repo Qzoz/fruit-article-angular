@@ -1,0 +1,72 @@
+@import "./../../../../partials/custom-variables";
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.nav-item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+
+  &:hover {
+    color: inherit;
+  }
+
+  &:active {
+    color: inherit;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    min-height: $sidenav-nav-item-height;
+    padding-left: 70px;
+    font-size: 1rem;
+    position: relative;
+    transition: 0.2s ease;
+
+    .nav-item-text {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 15px;
+      }
+    }
+
+    &:hover {
+      background-color: var(--sidenav-item-hover-bg-color);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      background-color: var(--sidenav-color);
+      transition: 0.5s ease;
+
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      overflow: hidden;
+    }
+  }
+
+  &.active {
+    .nav-item {
+      background-color: var(--sidenav-item-active-bg-color);
+      color: var(--sidenav-item-active-color);
+      &::after {
+        top: 0;
+        width: 10px;
+        height: 100%;
+      }
+    }
+  }
+}

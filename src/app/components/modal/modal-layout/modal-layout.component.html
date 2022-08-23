@@ -1,0 +1,7 @@
+<ng-container *ngIf="modalHead && modalHead.templateRef">
+  <ng-container [ngTemplateOutlet]="modalHead.templateRef"></ng-container>
+</ng-container>
+<ng-content></ng-content>
+<ng-container *ngIf="modalFoot && modalFoot.templateRef">
+  <ng-container [ngTemplateOutlet]="modalFoot.templateRef"></ng-container>
+</ng-container>

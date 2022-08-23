@@ -1,0 +1,43 @@
+:host {
+  display: block;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+}
+
+button {
+  mat-icon {
+    height: 19px;
+    width: 19px;
+    font-size: 1.15rem;
+  }
+
+  mat-spinner {
+    margin-left: 10px;
+
+    &::ng-deep {
+      circle {
+        stroke: white;
+      }
+    }
+  }
+
+  &.mat-stroked-button,
+  &.mat-button {
+    mat-spinner::ng-deep {
+      circle {
+        stroke: black;
+      }
+    }
+  }
+
+  .prefix-icon {
+    margin-right: 10px;
+  }
+
+  .suffix-icon {
+    margin-left: 10px;
+  }
+}

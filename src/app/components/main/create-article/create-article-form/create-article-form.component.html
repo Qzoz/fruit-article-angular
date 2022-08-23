@@ -1,0 +1,53 @@
+<ng-container *ngIf="formGroup">
+  <form [formGroup]="formGroup">
+    <mat-form-field appearance="outline">
+      <mat-label>Image</mat-label>
+      <input
+        matInput
+        placeholder="Enter Image URL"
+        type="text"
+        name="url"
+        [formControlName]="FieldNames.URL"
+      />
+      <mat-error *ngIf="formGroup.get(FieldNames.URL)?.errors?.required"
+        >URL is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input
+        matInput
+        placeholder="Enter Title"
+        type="text"
+        name="title"
+        [formControlName]="FieldNames.TITLE"
+      />
+      <mat-error *ngIf="formGroup.get(FieldNames.TITLE)?.errors?.required"
+        >Title is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        rows="10"
+        name="description"
+        [formControlName]="FieldNames.DESCRIPTION"
+      ></textarea>
+      <mat-error *ngIf="formGroup.get(FieldNames.DESCRIPTION)?.errors?.required"
+        >Description is required</mat-error
+      >
+    </mat-form-field>
+    <mat-divider></mat-divider>
+    <div class="button-container">
+      <fang-button
+        [color]="ButtonColorType.ACCENT"
+        [type]="ButtonType.FLAT"
+        [disabled]="formGroup.disabled"
+        [loader]="isLoading"
+        (onClick)="onSubmit()"
+        >Create</fang-button
+      >
+    </div>
+  </form>
+</ng-container>

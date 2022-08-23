@@ -1,0 +1,7 @@
+<div class="nav-items">
+  <ng-container *ngFor="let navItem of navItems">
+    <fang-nav-item [link]="navItem.path" [icon]="navItem.icon">{{
+      navItem.text
+    }}</fang-nav-item>
+  </ng-container>
+</div>

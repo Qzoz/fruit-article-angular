@@ -1,0 +1,10 @@
+<a [routerLink]="[link]" routerLinkActive="active" class="nav-item-link">
+  <span class="nav-item">
+    <span class="nav-item-text">
+      <ng-container *ngIf="icon">
+        <mat-icon>{{ icon }}</mat-icon>
+      </ng-container>
+      <span><ng-content></ng-content></span>
+    </span>
+  </span>
+</a>

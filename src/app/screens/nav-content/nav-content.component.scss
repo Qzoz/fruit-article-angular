@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidenav-parent {
+  background-color: var(--sidenav-bg-color);
+  color: var(--sidenav-color);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  fang-nav-items {
+    flex: 1;
+    overflow: auto;
+  }
+}

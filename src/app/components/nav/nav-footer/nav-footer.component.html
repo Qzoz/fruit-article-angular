@@ -1,0 +1,19 @@
+<div class="nav-footer">
+  <ng-container
+    [ngTemplateOutlet]="navFooterItem"
+    [ngTemplateOutletContext]="{ text: 'Settings', icon: 'settings' }"
+  ></ng-container>
+  <ng-container
+    [ngTemplateOutlet]="navFooterItem"
+    [ngTemplateOutletContext]="{ text: 'Logout', icon: 'power_settings_new' }"
+  ></ng-container>
+</div>
+
+<ng-template #navFooterItem let-text="text" let-icon="icon">
+  <div class="nav-footer-item">
+    <ng-container *ngIf="icon">
+      <mat-icon>{{ icon }}</mat-icon>
+    </ng-container>
+    <span>{{ text }}</span>
+  </div>
+</ng-template>

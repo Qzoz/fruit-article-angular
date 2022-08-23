@@ -1,0 +1,20 @@
+:host {
+  display: block;
+}
+
+form {
+  width: 100%;
+
+  mat-form-field {
+    width: 100%;
+
+    mat-label {
+      line-height: 1.25;
+    }
+  }
+
+  .button-container {
+    padding: 20px 0;
+    text-align: end;
+  }
+}

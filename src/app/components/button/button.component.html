@@ -1,0 +1,59 @@
+<ng-container [ngSwitch]="buttonType">
+  <ng-container *ngSwitchCase="ButtonType.FLAT">
+    <button
+      mat-flat-button
+      [color]="buttonColorType"
+      (click)="onClick()"
+      [disabled]="disabled"
+      [class.disabled]="disabled"
+    >
+      <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </button>
+  </ng-container>
+  <ng-container *ngSwitchCase="ButtonType.RAISED">
+    <button
+      mat-raised-button
+      [color]="buttonColorType"
+      (click)="onClick()"
+      [disabled]="disabled"
+      [class.disabled]="disabled"
+    >
+      <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </button>
+  </ng-container>
+  <ng-container *ngSwitchCase="ButtonType.STROKED">
+    <button
+      mat-stroked-button
+      [color]="buttonColorType"
+      (click)="onClick()"
+      [disabled]="disabled"
+      [class.disabled]="disabled"
+    >
+      <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </button>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <button
+      mat-button
+      [color]="buttonColorType"
+      (click)="onClick()"
+      [disabled]="disabled"
+      [class.disabled]="disabled"
+    >
+      <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </button>
+  </ng-container>
+</ng-container>
+
+<ng-template #buttonContent>
+  <div class="button-content">
+    <ng-container *ngIf="prefixIcon">
+      <mat-icon class="prefix-icon">{{ prefixIcon }}</mat-icon>
+    </ng-container>
+    <ng-content></ng-content>
+    <ng-container *ngIf="suffixIcon">
+      <mat-icon class="suffix-icon">{{ suffixIcon }}</mat-icon>
+    </ng-container>
+    <mat-spinner *ngIf="loader" [diameter]="16" [strokeWidth]="2"></mat-spinner>
+  </div>
+</ng-template>

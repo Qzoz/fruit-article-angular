@@ -1,0 +1,31 @@
+<fang-content-layout>
+  <span mainContentHead>List Article</span>
+
+  <ng-container *ngIf="!loader; else loaderTemplate">
+    <ng-container
+      *ngIf="articleList || !loadingError; else loadingErrorTemplate"
+    >
+      <ng-container
+        *ngIf="articleList && articleList.length; else noDataTemplate"
+      >
+        <fang-table-paginated
+          [showSerialNo]="false"
+          [dataList]="articleList"
+          [columnList]="columnDataList"
+        ></fang-table-paginated>
+      </ng-container>
+      <ng-template #noDataTemplate>
+        <div class="no-data">No Articles Available</div>
+      </ng-template>
+    </ng-container>
+    <ng-template #loadingErrorTemplate>
+      <div class="loading-error">{{ loadingError }}</div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loaderTemplate>
+    <div class="loader-parent">
+      <mat-spinner color="accent" [diameter]="50"></mat-spinner>
+    </div>
+  </ng-template>
+</fang-content-layout>
