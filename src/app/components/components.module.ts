@@ -80,6 +80,7 @@ const commonComponents = [
     DirectivesModule,
 
     // Material Modules
+    MatIconModule,
     MatSidenavModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,

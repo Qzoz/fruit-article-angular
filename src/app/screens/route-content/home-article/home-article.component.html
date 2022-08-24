@@ -1,1 +1,30 @@
-<p>Still in development</p>
+<fang-content-layout>
+  <span mainContentHead>Home</span>
+
+  <div class="tiles-parent">
+    <ng-container *ngFor="let tile of tilesDetail">
+      <div class="tile-container">
+        <ng-container
+          [ngTemplateOutlet]="tileTemplate"
+          [ngTemplateOutletContext]="tile"
+        ></ng-container>
+      </div>
+    </ng-container>
+  </div>
+</fang-content-layout>
+
+<ng-template
+  #tileTemplate
+  let-link="routeLink"
+  let-icon="tileIcon"
+  let-text="tileText"
+>
+  <div class="tile-item mat-elevation-z8">
+    <a [routerLink]="[link]" routerLinkActive="active" class="tile-link">
+      <span class="tile-text">
+        <mat-icon>{{ icon }}</mat-icon>
+        <span>{{ text }}</span>
+      </span>
+    </a>
+  </div>
+</ng-template>
