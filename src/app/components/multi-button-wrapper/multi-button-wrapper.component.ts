@@ -18,6 +18,15 @@ export class MultiButtonWrapperComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.initMultiButtonVars();
+  }
+
+  tableInit(data: any) {
+    this.multiButtonData = data;
+    this.initMultiButtonVars();
+  }
+
+  initMultiButtonVars() {
     if (this.multiButtonData && this.multiButtonData.layout) {
       if (this.multiButtonData.layout.justifyContent) {
         this.justifyContent = this.multiButtonData.layout.justifyContent;

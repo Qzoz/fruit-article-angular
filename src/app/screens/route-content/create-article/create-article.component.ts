@@ -10,6 +10,4 @@ export class CreateArticleComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  onArticleCreated(event: any) {}
 }

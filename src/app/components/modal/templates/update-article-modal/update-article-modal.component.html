@@ -1,0 +1,11 @@
+<fang-modal-layout>
+  <ng-template
+    fangModalHead
+    modalHeading="Edit Article"
+    (closeClicked)="modalData.modalRef.close()"
+  ></ng-template>
+  <fang-create-article-form
+    [data]="articleData"
+    (onUpdate)="[onUpdate(), modalData.modalRef.close()]"
+  ></fang-create-article-form>
+</fang-modal-layout>

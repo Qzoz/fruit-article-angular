@@ -9,7 +9,13 @@
           "
         >
           <ng-container [matColumnDef]="column.key">
-            <th mat-header-cell *matHeaderCellDef>{{ column.name }}</th>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              [style.text-align]="column.headerTextAlign"
+            >
+              {{ column.name }}
+            </th>
             <td mat-cell *matCellDef="let element; let index">
               <ng-template
                 fangTableComponentWrapper

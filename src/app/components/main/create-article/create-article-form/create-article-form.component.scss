@@ -16,5 +16,9 @@ form {
   .button-container {
     padding: 20px 0;
     text-align: end;
+
+    &.is-edit {
+      padding-bottom: 0;
+    }
   }
 }

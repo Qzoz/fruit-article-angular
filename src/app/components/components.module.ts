@@ -30,6 +30,7 @@ import { ConfirmationModalComponent } from './modal/templates/confirmation-modal
 import { ModalComponent } from './modal/modal.component';
 import { ModalLayoutComponent } from './modal/modal-layout/modal-layout.component';
 import { MultiButtonWrapperComponent } from './multi-button-wrapper/multi-button-wrapper.component';
+import { UpdateArticleModalComponent } from './modal/templates/update-article-modal/update-article-modal.component';
 
 const commonComponents = [
   NavHeadComponent,
@@ -44,9 +45,10 @@ const commonComponents = [
   MultiButtonWrapperComponent,
   TablePaginatedComponent,
 
-  ConfirmationModalComponent,
   ModalComponent,
   ModalLayoutComponent,
+  ConfirmationModalComponent,
+  UpdateArticleModalComponent,
 ];
 
 @NgModule({

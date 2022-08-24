@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ButtonWrapperComponent } from 'src/app/components/button-wrapper/button-wrapper.component';
+import { UpdateArticleModalComponent } from 'src/app/components/modal/templates/update-article-modal/update-article-modal.component';
+import { MultiButtonWrapperComponent } from 'src/app/components/multi-button-wrapper/multi-button-wrapper.component';
 import { EButtonColorType } from 'src/app/enums/e-button-color-type';
+import { EButtonType } from 'src/app/enums/e-button-type';
 import { IButtonData } from 'src/app/interfaces/i-button-data';
 import { IColumnData } from 'src/app/interfaces/i-column-data';
+import { IMultiButtonData } from 'src/app/interfaces/i-multi-button-data';
 import { ApiService } from 'src/app/services/api.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -81,15 +85,34 @@ export class ListArticleComponent implements OnInit, OnDestroy {
       {
         key: ArticleJsonKeys.ACTION,
         name: 'Action',
-        component: ButtonWrapperComponent,
-        componentData: (rowData: any, index?: number): IButtonData => {
-          return {
-            buttonName: 'Delete',
-            buttonColorType: EButtonColorType.WARN,
-            function: (buttonRef: any) => {
-              this.onDeleteEntry(rowData, buttonRef);
+        headerTextAlign: 'center',
+        component: MultiButtonWrapperComponent,
+        componentData: (rowData: any) => {
+          const multiButtonData: IMultiButtonData = {
+            buttonDataInputs: [
+              {
+                buttonName: 'Edit',
+                buttonColorType: EButtonColorType.PRIMARY,
+                buttonType: EButtonType.STROKED,
+                function: () => {
+                  this.onUpdateEntry(rowData);
+                },
+              },
+              {
+                buttonName: 'Delete',
+                buttonColorType: EButtonColorType.WARN,
+                function: (buttonRef: any) => {
+                  this.onDeleteEntry(rowData, buttonRef);
+                },
+              },
+            ],
+            layout: {
+              alignItems: 'center',
+              justifyContent: 'center',
+              buttonMarginH: '5px',
             },
           };
+          return multiButtonData;
         },
       },
     ];
@@ -132,6 +155,22 @@ export class ListArticleComponent implements OnInit, OnDestroy {
         onFaliure(error);
       }
     );
+  }
+
+  onUpdateEntry(data: any) {
+    this._modalService.openModal({
+      componentToLoad: UpdateArticleModalComponent,
+      modalConfig: {
+        minWidth: '70vw',
+        disableClose: true,
+        data: {
+          articleData: data,
+          onUpdated: () => {
+            this.updateList();
+          },
+        },
+      },
+    });
   }
 
   ngOnDestroy(): void {

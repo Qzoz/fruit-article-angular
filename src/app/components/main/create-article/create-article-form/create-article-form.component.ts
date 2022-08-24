@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -13,6 +20,11 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
   styleUrls: ['./create-article-form.component.scss'],
 })
 export class CreateArticleFormComponent implements OnInit, OnDestroy {
+  @Input('data') editData!: any;
+
+  @Output('onUpdate') onArticleUpdated: EventEmitter<any> =
+    new EventEmitter<any>();
+
   formGroup!: FormGroup;
   isLoading: boolean = false;
 
@@ -21,6 +33,8 @@ export class CreateArticleFormComponent implements OnInit, OnDestroy {
   ButtonColorType = EButtonColorType;
 
   private _apiSubscription!: Subscription;
+
+  readonly JSON_ID_KEY = '_id';
 
   constructor(
     private _apiService: ApiService,
@@ -37,6 +51,23 @@ export class CreateArticleFormComponent implements OnInit, OnDestroy {
       [FieldNames.TITLE]: new FormControl('', Validators.required),
       [FieldNames.DESCRIPTION]: new FormControl('', Validators.required),
     });
+    if (this.editData) {
+      if (this.editData[FieldNames.URL]) {
+        this.formGroup
+          .get(FieldNames.URL)
+          ?.setValue(this.editData[FieldNames.URL]);
+      }
+      if (this.editData[FieldNames.TITLE]) {
+        this.formGroup
+          .get(FieldNames.TITLE)
+          ?.setValue(this.editData[FieldNames.TITLE]);
+      }
+      if (this.editData[FieldNames.DESCRIPTION]) {
+        this.formGroup
+          .get(FieldNames.DESCRIPTION)
+          ?.setValue(this.editData[FieldNames.DESCRIPTION]);
+      }
+    }
   }
 
   onSubmit() {
@@ -44,25 +75,38 @@ export class CreateArticleFormComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.formGroup.disable();
 
-      this._apiSubscription = this._apiService
-        .createArticle(this.formGroup.value)
-        .subscribe(
-          (response) => {
-            this.isLoading = false;
-            this.formGroup.enable();
-            if (response) {
-              this.formGroup.reset();
-              this._snackbarService.showSnackbar('Created Successfully');
-            } else {
-              this._snackbarService.showSnackbar('Creation Failed');
+      const observable = this.editData
+        ? this._apiService.updateArticle(
+            this.editData[this.JSON_ID_KEY],
+            this.formGroup.value
+          )
+        : this._apiService.createArticle(this.formGroup.value);
+
+      this._apiSubscription = observable.subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.formGroup.enable();
+          if (response) {
+            this.formGroup.reset();
+            this._snackbarService.showSnackbar(
+              `${this.editData ? 'Updated' : 'Created'} Successfully`
+            );
+
+            if (this.editData && this.onArticleUpdated?.observers?.length) {
+              this.onArticleUpdated.emit();
             }
-          },
-          (error) => {
-            this.isLoading = false;
-            this.formGroup.enable();
-            this._snackbarService.showSnackbar(error.message);
+          } else {
+            this._snackbarService.showSnackbar(
+              `${this.editData ? 'Updation' : 'Creation'} Failed`
+            );
           }
-        );
+        },
+        (error) => {
+          this.isLoading = false;
+          this.formGroup.enable();
+          this._snackbarService.showSnackbar(error.message);
+        }
+      );
     } else {
       this._snackbarService.showSnackbar('Invalid Entries');
     }

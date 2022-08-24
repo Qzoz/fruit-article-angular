@@ -1,5 +1,18 @@
 <ng-container *ngIf="formGroup">
   <form [formGroup]="formGroup">
+    <ng-container *ngIf="editData">
+      <mat-form-field appearance="outline">
+        <mat-label>ID</mat-label>
+        <input
+          matInput
+          placeholder="ID"
+          type="text"
+          name="id"
+          [value]="editData[JSON_ID_KEY]"
+          disabled
+        />
+      </mat-form-field>
+    </ng-container>
     <mat-form-field appearance="outline">
       <mat-label>Image</mat-label>
       <input
@@ -39,14 +52,14 @@
       >
     </mat-form-field>
     <mat-divider></mat-divider>
-    <div class="button-container">
+    <div class="button-container" [class.is-edit]="editData">
       <fang-button
         [color]="ButtonColorType.ACCENT"
         [type]="ButtonType.FLAT"
         [disabled]="formGroup.disabled"
         [loader]="isLoading"
         (onClick)="onSubmit()"
-        >Create</fang-button
+        >{{ editData ? "Update" : "Create" }}</fang-button
       >
     </div>
   </form>
