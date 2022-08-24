@@ -3,4 +3,5 @@ export enum EButtonType {
   FLAT = 'flat',
   RAISED = 'raised',
   STROKED = 'stroked',
+  ICON = 'icon',
 }

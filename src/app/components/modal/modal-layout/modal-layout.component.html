@@ -1,7 +1,30 @@
 <ng-container *ngIf="modalHead && modalHead.templateRef">
-  <ng-container [ngTemplateOutlet]="modalHead.templateRef"></ng-container>
+  <div class="modal-head">
+    <div class="modal-head-content">
+      <ng-container *ngIf="modalHead.modalHeading">
+        <div class="modal-heading">{{ modalHead.modalHeading }}</div>
+      </ng-container>
+      <ng-container [ngTemplateOutlet]="modalHead.templateRef"></ng-container>
+    </div>
+    <fang-button
+      prefixIcon="close"
+      [color]="ButtonColorType.ACCENT"
+      [type]="ButtonType.ICON"
+      (onClick)="onCloseClicked()"
+    ></fang-button>
+  </div>
+  <mat-divider></mat-divider>
 </ng-container>
-<ng-content></ng-content>
+<div class="modal-body" [ngClass]="{ 'no-padding': noBodyPadding }">
+  <ng-content></ng-content>
+</div>
 <ng-container *ngIf="modalFoot && modalFoot.templateRef">
-  <ng-container [ngTemplateOutlet]="modalFoot.templateRef"></ng-container>
+  <mat-divider></mat-divider>
+  <div class="modal-foot">
+    <fang-multi-button-wrapper
+      *ngIf="modalFoot.multiButtonData"
+      [multiButtonData]="modalFoot.multiButtonData"
+    ></fang-multi-button-wrapper>
+    <ng-container [ngTemplateOutlet]="modalFoot.templateRef"></ng-container>
+  </div>
 </ng-container>

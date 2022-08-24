@@ -1,0 +1,11 @@
+<ng-container
+  *ngFor="let buttonData of multiButtonData.buttonDataInputs; let index"
+>
+  <fang-button-wrapper
+    [buttonData]="buttonData"
+    [style.marginLeft]="buttonMarginH"
+    [style.marginRight]="buttonMarginH"
+    [style.marginTop]="buttonMarginV"
+    [style.marginBottom]="buttonMarginV"
+  ></fang-button-wrapper>
+</ng-container>

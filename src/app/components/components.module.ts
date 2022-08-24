@@ -29,6 +29,7 @@ import { ButtonWrapperComponent } from './button-wrapper/button-wrapper.componen
 import { ConfirmationModalComponent } from './modal/templates/confirmation-modal/confirmation-modal.component';
 import { ModalComponent } from './modal/modal.component';
 import { ModalLayoutComponent } from './modal/modal-layout/modal-layout.component';
+import { MultiButtonWrapperComponent } from './multi-button-wrapper/multi-button-wrapper.component';
 
 const commonComponents = [
   NavHeadComponent,
@@ -40,6 +41,7 @@ const commonComponents = [
 
   ButtonComponent,
   ButtonWrapperComponent,
+  MultiButtonWrapperComponent,
   TablePaginatedComponent,
 
   ConfirmationModalComponent,

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalComponent } from '../components/modal/modal.component';
+import { ConfirmationModalComponent } from '../components/modal/templates/confirmation-modal/confirmation-modal.component';
+import { IConfirmModalData } from '../interfaces/i-confirm-modal-data';
 import { IModalData } from '../interfaces/i-modal-data';
 
 @Injectable({
@@ -29,5 +31,34 @@ export class ModalService {
         modalData.onModalClosed();
       }
     });
+  }
+
+  openConfirmationModal(confirmModalData: IConfirmModalData) {
+    if (confirmModalData) {
+      const confirmData = {
+        confirmationMessage: confirmModalData.confirmationMessage,
+        function: confirmModalData.function,
+        cancelFunction: confirmModalData.cancelFunction,
+        modalHeading: confirmModalData.modalHeading,
+      };
+      let modalConfig = confirmModalData?.modalConfig;
+      if (!modalConfig) {
+        modalConfig = {
+          maxHeight: '90vh',
+          minWidth: '40vw',
+          data: confirmData,
+        };
+      } else {
+        modalConfig.data = {
+          ...modalConfig.data,
+          ...confirmData,
+        };
+      }
+      this.openModal({
+        componentToLoad: ConfirmationModalComponent,
+        modalConfig: modalConfig,
+        onModalClosed: confirmModalData.onModalClosed,
+      });
+    }
   }
 }

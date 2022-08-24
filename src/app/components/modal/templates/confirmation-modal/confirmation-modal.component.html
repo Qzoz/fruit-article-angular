@@ -1,5 +1,12 @@
 <fang-modal-layout>
-  <p>confirmation-modal works!</p>
-  <ng-template fangModalHead><div>hello</div></ng-template>
-  <ng-template fangModalFoot><div>world</div></ng-template>
+  <ng-template
+    fangModalHead
+    (closeClicked)="modalData.modalRef.close()"
+    [modalHeading]="modalHeading ? modalHeading : 'Confirmation'"
+  >
+  </ng-template>
+  <ng-container *ngIf="confirmationMessage">
+    <p [innerHTML]="confirmationMessage"></p>
+  </ng-container>
+  <ng-template fangModalFoot [multiButtonData]="multiButtonData"></ng-template>
 </fang-modal-layout>

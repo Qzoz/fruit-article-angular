@@ -32,6 +32,18 @@
       <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
     </button>
   </ng-container>
+  <ng-container *ngSwitchCase="ButtonType.ICON">
+    <button
+      mat-icon-button
+      class="icon-button"
+      [color]="buttonColorType"
+      (click)="onClick()"
+      [disabled]="disabled"
+      [class.disabled]="disabled"
+    >
+      <mat-icon>{{ prefixIcon || suffixIcon }}</mat-icon>
+    </button>
+  </ng-container>
   <ng-container *ngSwitchDefault>
     <button
       mat-button

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ButtonWrapperComponent } from 'src/app/components/button-wrapper/button-wrapper.component';
-import { ConfirmationModalComponent } from 'src/app/components/modal/templates/confirmation-modal/confirmation-modal.component';
 import { EButtonColorType } from 'src/app/enums/e-button-color-type';
 import { IButtonData } from 'src/app/interfaces/i-button-data';
 import { IColumnData } from 'src/app/interfaces/i-column-data';
@@ -22,6 +21,7 @@ export class ListArticleComponent implements OnInit, OnDestroy {
   loadingError!: string;
 
   private _apiSubscription!: Subscription;
+  private _deleteApiSubscription!: Subscription;
 
   constructor(
     private _apiService: ApiService,
@@ -30,6 +30,13 @@ export class ListArticleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.updateList();
+  }
+
+  updateList() {
+    if (this._apiSubscription) {
+      this._apiSubscription.unsubscribe();
+    }
     this.loader = true;
     this._apiSubscription = this._apiService.listArticle().subscribe(
       (response) => {
@@ -48,31 +55,31 @@ export class ListArticleComponent implements OnInit, OnDestroy {
   prepareColumnData() {
     this.columnDataList = [
       {
-        key: '_id',
+        key: ArticleJsonKeys.ID,
         name: 'ID',
       },
       // {
-      //   key: 'url',
+      //   key: ArticleJsonKeys.URL,
       //   name: 'URL',
       // },
       {
-        key: 'title',
+        key: ArticleJsonKeys.TITLE,
         name: 'Title',
       },
       // {
-      //   key: 'description',
+      //   key: ArticleJsonKeys.DESCRIPTION,
       //   name: 'Description',
       // },
       {
-        key: 'date_day',
+        key: ArticleJsonKeys.DAY,
         name: 'Day',
       },
       {
-        key: 'date_month',
+        key: ArticleJsonKeys.MONTH,
         name: 'Month',
       },
       {
-        key: 'action',
+        key: ArticleJsonKeys.ACTION,
         name: 'Action',
         component: ButtonWrapperComponent,
         componentData: (rowData: any, index?: number): IButtonData => {
@@ -80,7 +87,7 @@ export class ListArticleComponent implements OnInit, OnDestroy {
             buttonName: 'Delete',
             buttonColorType: EButtonColorType.WARN,
             function: (buttonRef: any) => {
-              this.onDeleteEntry(rowData);
+              this.onDeleteEntry(rowData, buttonRef);
             },
           };
         },
@@ -88,23 +95,61 @@ export class ListArticleComponent implements OnInit, OnDestroy {
     ];
   }
 
-  onDeleteEntry(data?: any) {
-    this._modalService.openModal({
-      componentToLoad: ConfirmationModalComponent,
-      modalConfig: {
-        width: '60vw',
-        height: '70vh',
-        data: data,
-      },
-      onModalClosed: () => {
-        console.log('closed');
+  onDeleteEntry(data: any, tableButtonRef: any) {
+    this._modalService.openConfirmationModal({
+      modalHeading: 'Delete Article',
+      confirmationMessage: `Are you sure to delete <b>'${
+        data[ArticleJsonKeys.ID]
+      }'</b> ?`,
+      function: (buttonRef: any, modalRef: any) => {
+        buttonRef.loader = true;
+        tableButtonRef.loader = true;
+        this.deleteArticle(
+          data[ArticleJsonKeys.ID],
+          () => {
+            buttonRef.loader = false;
+            tableButtonRef.loader = false;
+            modalRef.close();
+            this.updateList();
+            this._snackbarService.showSnackbar('Deleted Successfully');
+          },
+          () => {
+            buttonRef.loader = false;
+            tableButtonRef.loader = false;
+            this._snackbarService.showSnackbar('Failed to delete');
+          }
+        );
       },
     });
+  }
+
+  deleteArticle(articleId: string, onSuccess: Function, onFaliure: Function) {
+    this._apiService.deleteArticle(articleId).subscribe(
+      (response) => {
+        onSuccess(response);
+      },
+      (error) => {
+        onFaliure(error);
+      }
+    );
   }
 
   ngOnDestroy(): void {
     if (this._apiSubscription) {
       this._apiSubscription.unsubscribe();
     }
+    if (this._deleteApiSubscription) {
+      this._deleteApiSubscription.unsubscribe();
+    }
   }
+}
+
+enum ArticleJsonKeys {
+  ID = '_id',
+  URL = 'url',
+  TITLE = 'title',
+  DESCRIPTION = 'description',
+  DAY = 'date_day',
+  MONTH = 'date_month',
+  ACTION = 'action',
 }

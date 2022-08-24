@@ -5,5 +5,5 @@ import { MatDialogConfig } from '@angular/material/dialog';
 export interface IModalData {
   componentToLoad: Type<any>;
   modalConfig?: MatDialogConfig<any>;
-  onModalClosed?: (data?: any) => void;
+  onModalClosed?: Function;
 }
